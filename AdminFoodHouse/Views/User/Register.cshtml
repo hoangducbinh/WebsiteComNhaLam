@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js"
+            crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/png" href="~/images/tomi.ico" />
+    <link href="~/Content/assets/css/styleSigninSignup.css" rel="stylesheet" />
+    <title>Đăng ký</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <style>
+        .container:before {
+            content: "";
+            position: absolute;
+            height: 2000px;
+            width: 2000px;
+            top: -10%;
+            right: 48%;
+            transform: translateY(-50%);
+            background-image: linear-gradient(-45deg, #ff0000 0%, #fe046f 90%);
+            transition: 1.8s ease-in-out;
+            border-radius: 50%;
+            z-index: 6;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                @using (Html.BeginForm("Register", "User"))
+                {
+                    @Html.ValidationSummary(true)
+
+                    <h2 class="title">Sign up</h2> 
+                    <div class="input-field">
+
+                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i><span style="color: red;">*</span></label>
+                        <input type="text" name="displayname" class="form-control form-control-lg" id="name" placeholder="Họ và tên" /><span style="color: red;">@ViewData["err1"]</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="dname"><i class="zmdi zmdi-account material-icons-name"></i><span style="color: red;">*</span></label>
+                        <input type="text" name="username" class="form-control form-control-lg" id="name" placeholder="Tên đăng nhập" /><span style="color: red;">@ViewData["err2"]</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="email"><i class="zmdi zmdi-email"></i><span style="color: red;"> *</span></label>
+                        <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Địa chỉ Email" /><span style="color: red;">@ViewData["err5"]</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i><span style="color: red;"> *</span></label>
+                        <input type="password" name="password" class="form-control form-control-lg" id="pass" placeholder="Nhập mật khẩu" /><span style="color: red;">@ViewData["err3"]</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i><span style="color: red;"> *</span></label>
+                        <input type="password" name="confirmpassword" class="form-control form-control-lg" id="re_pass" placeholder="Nhập lại mật khẩu" /><span style="color: red;">@ViewData["err4"]</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="pass"><i class="zmdi zmdi-local-phone"></i><span style="color: red;"> * </span></label>
+                        <input type="text" name="phone" class="form-control form-control-lg" placeholder="Số điện thoại" /><span style="color: red;">@ViewData["err6"]</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="pass"><i class="zmdi zmdi-pin"></i><span style="color: red;"> *</span></label>
+                        <input type="text" name="address" class="form-control form-control-lg" placeholder="Địa chỉ" /><span style="color: red;">@ViewData["err7"]</span>
+                    </div>
+
+
+
+
+
+
+
+                    <input type="submit" class="btn" value="Sign up" />
+                    <p class="social-text">Or Sign up with social platforms</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+
+                }
+            </div>
+        </div>
+
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>Bạn chưa có tài khoản</h3>
+                    <p>
+                       Đăng ký ngay để kịp chốt đơn
+                    </p>
+                    <button class="btn transparent" id="sign-up-btn">
+                        Sign up
+                    </button>
+                </div>
+                
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>Đã có tài khoản</h3>
+                    <p>
+                       Đăng nhập và chốt đơn ngay
+                    </p>
+                    <button onclick="window.location.href='@Url.Action("Login", "User")'" class="btn transparent">
+                        Đăng nhập
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.querySelector(".container");
+            container.classList.add("sign-up-mode");
+
+            const sign_in_btn = document.querySelector("#sign-in-btn");
+            const sign_up_btn = document.querySelector("#sign-up-btn");
+
+            sign_in_btn.addEventListener("click", () => {
+                container.classList.remove("sign-up-mode");
+            });
+
+            sign_up_btn.addEventListener("click", () => {
+                container.classList.add("sign-up-mode");
+            });
+        });
+    </script>
+
+
+
+
+
+</body>
+</html>

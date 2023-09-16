@@ -1,0 +1,8 @@
+﻿@model IEnumerable<AdminFoodHouse.Models.CategoryP>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <h2><a href="@Url.Action("CategoryDetail","Food", new {idP = item.AccountSellID,id =item.CategoryID })" class="list-group-item" style="width:214px ; font-size:16px">@item.Name</a></h2>
+    }
+</ul>

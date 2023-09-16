@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AccountBuy">
+    <Key>
+      <PropertyRef Name="AccountBuyID" />
+    </Key>
+    <Property Name="AccountBuyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="Int32" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Order_AccountBuy" FromRole="AccountBuy" ToRole="Order" />
+    <NavigationProperty Name="Rate_" Relationship="Self.FK_Rate__AccountBuy" FromRole="AccountBuy" ToRole="Rate_" />
+    <NavigationProperty Name="ShoppingCards" Relationship="Self.FK_ShoppingCard_AccountBuy" FromRole="AccountBuy" ToRole="ShoppingCard" />
+  </EntityType>
+  <EntityType Name="AccountSell">
+    <Key>
+      <PropertyRef Name="AccountSellID" />
+    </Key>
+    <Property Name="AccountSellID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_AccountSell1" FromRole="AccountSell" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ADMIN">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PassWord" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CartDetail">
+    <Key>
+      <PropertyRef Name="CartDetailID" />
+    </Key>
+    <Property Name="CartDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="ShoppingCartID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_CartDetail_Product" FromRole="CartDetail" ToRole="Product" />
+    <NavigationProperty Name="ShoppingCard" Relationship="Self.FK_CartDetail_ShoppingCard" FromRole="CartDetail" ToRole="ShoppingCard" />
+  </EntityType>
+  <EntityType Name="CategoryP">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_CategoryP" FromRole="CategoryP" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="AccountID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AccountBuy" Relationship="Self.FK_Order_AccountBuy" FromRole="Order" ToRole="AccountBuy" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderDetailID" />
+    </Key>
+    <Property Name="OrderDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PayStatus" Type="Int32" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="Decription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="CategoryID" Type="Int32" />
+    <Property Name="AccountSellID" Type="Int32" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="AccountSell" Relationship="Self.FK_Product_AccountSell1" FromRole="Product" ToRole="AccountSell" />
+    <NavigationProperty Name="CartDetails" Relationship="Self.FK_CartDetail_Product" FromRole="Product" ToRole="CartDetail" />
+    <NavigationProperty Name="CategoryP" Relationship="Self.FK_Product_CategoryP" FromRole="Product" ToRole="CategoryP" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
+    <NavigationProperty Name="Rate_" Relationship="Self.FK_Rate__Product" FromRole="Product" ToRole="Rate_" />
+    <NavigationProperty Name="Promotions" Relationship="Self.PromotionDetail" FromRole="Product" ToRole="Promotion" />
+  </EntityType>
+  <EntityType Name="Promotion">
+    <Key>
+      <PropertyRef Name="PromotionID" />
+    </Key>
+    <Property Name="PromotionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Discount" Type="Int32" Nullable="false" />
+    <Property Name="DateStart" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DateEnd" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Products" Relationship="Self.PromotionDetail" FromRole="Promotion" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Rate_">
+    <Key>
+      <PropertyRef Name="RateID" />
+    </Key>
+    <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountID" Type="Int32" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NumberStar" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AccountBuy" Relationship="Self.FK_Rate__AccountBuy" FromRole="Rate_" ToRole="AccountBuy" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Rate__Product" FromRole="Rate_" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ShoppingCard">
+    <Key>
+      <PropertyRef Name="CartID" />
+    </Key>
+    <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AccountBuy" Relationship="Self.FK_ShoppingCard_AccountBuy" FromRole="ShoppingCard" ToRole="AccountBuy" />
+    <NavigationProperty Name="CartDetails" Relationship="Self.FK_CartDetail_ShoppingCard" FromRole="ShoppingCard" ToRole="CartDetail" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Order_AccountBuy">
+    <End Role="AccountBuy" Type="Self.AccountBuy" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountBuy">
+        <PropertyRef Name="AccountBuyID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rate__AccountBuy">
+    <End Role="AccountBuy" Type="Self.AccountBuy" Multiplicity="1" />
+    <End Role="Rate_" Type="Self.Rate_" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountBuy">
+        <PropertyRef Name="AccountBuyID" />
+      </Principal>
+      <Dependent Role="Rate_">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShoppingCard_AccountBuy">
+    <End Role="AccountBuy" Type="Self.AccountBuy" Multiplicity="1" />
+    <End Role="ShoppingCard" Type="Self.ShoppingCard" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountBuy">
+        <PropertyRef Name="AccountBuyID" />
+      </Principal>
+      <Dependent Role="ShoppingCard">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_AccountSell1">
+    <End Role="AccountSell" Type="Self.AccountSell" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountSell">
+        <PropertyRef Name="AccountSellID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="AccountSellID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartDetail_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="CartDetail" Type="Self.CartDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="CartDetail">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartDetail_ShoppingCard">
+    <End Role="ShoppingCard" Type="Self.ShoppingCard" Multiplicity="1" />
+    <End Role="CartDetail" Type="Self.CartDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShoppingCard">
+        <PropertyRef Name="CartID" />
+      </Principal>
+      <Dependent Role="CartDetail">
+        <PropertyRef Name="ShoppingCartID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_CategoryP">
+    <End Role="CategoryP" Type="Self.CategoryP" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoryP">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rate__Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Rate_" Type="Self.Rate_" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Rate_">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PromotionDetail">
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="FoodStoreEntities02" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccountBuys" EntityType="Self.AccountBuy" />
+    <EntitySet Name="AccountSells" EntityType="Self.AccountSell" />
+    <EntitySet Name="ADMINs" EntityType="Self.ADMIN" />
+    <EntitySet Name="CartDetails" EntityType="Self.CartDetail" />
+    <EntitySet Name="CategoryPs" EntityType="Self.CategoryP" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Promotions" EntityType="Self.Promotion" />
+    <EntitySet Name="Rate_" EntityType="Self.Rate_" />
+    <EntitySet Name="ShoppingCards" EntityType="Self.ShoppingCard" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_Order_AccountBuy" Association="Self.FK_Order_AccountBuy">
+      <End Role="AccountBuy" EntitySet="AccountBuys" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rate__AccountBuy" Association="Self.FK_Rate__AccountBuy">
+      <End Role="AccountBuy" EntitySet="AccountBuys" />
+      <End Role="Rate_" EntitySet="Rate_" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShoppingCard_AccountBuy" Association="Self.FK_ShoppingCard_AccountBuy">
+      <End Role="AccountBuy" EntitySet="AccountBuys" />
+      <End Role="ShoppingCard" EntitySet="ShoppingCards" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_AccountSell1" Association="Self.FK_Product_AccountSell1">
+      <End Role="AccountSell" EntitySet="AccountSells" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartDetail_Product" Association="Self.FK_CartDetail_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="CartDetail" EntitySet="CartDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartDetail_ShoppingCard" Association="Self.FK_CartDetail_ShoppingCard">
+      <End Role="ShoppingCard" EntitySet="ShoppingCards" />
+      <End Role="CartDetail" EntitySet="CartDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_CategoryP" Association="Self.FK_Product_CategoryP">
+      <End Role="CategoryP" EntitySet="CategoryPs" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Product" Association="Self.FK_OrderDetail_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rate__Product" Association="Self.FK_Rate__Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Rate_" EntitySet="Rate_" />
+    </AssociationSet>
+    <AssociationSet Name="PromotionDetail" Association="Self.PromotionDetail">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Promotion" EntitySet="Promotions" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

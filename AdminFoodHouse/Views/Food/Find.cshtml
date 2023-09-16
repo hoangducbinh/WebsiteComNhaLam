@@ -1,0 +1,121 @@
+﻿
+@using PagedList.Mvc;
+@using PagedList;
+@model PagedList.PagedList<AdminFoodHouse.Models.Product>
+@{
+    ViewBag.Title = "Find";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .breadcrumb__text {
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
+        padding-left: 430px;
+    }
+</style>
+
+
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <aside class="product__sidebar col-lg-3 col-md-0 col-sm-12">
+                <ul class="list-group">
+                    <li>
+                        <div class="product__sidebar-heading">
+                            <div class=""></div>
+                            <h2 class="product__sidebar-title">
+                                Chào Mừng Quý Khách
+                            </h2>
+                        </div>
+                    </li>
+                    <nav class="product__sidebar-list" style="border-radius: 0px;">
+                        <div class="product__sidebar-item col-lg-6">
+                            <img src="~/Images/vc.jpg" />
+                        </div>
+                    </nav>
+                </ul><br />
+            </aside>
+
+
+
+
+
+            <article class="product__content col-lg-9 col-md-12 col-sm-12">
+                <nav class="row">
+                    <ul class="product__list hide-on-mobile" style="border-top: 1px solid var(--primary-color);  border-radius: 2px" ">
+                        <h4 style="text-align: center; margin-right: 362px;">
+                            Tìm thấy <span style=" font-size: 16px; color: red;"> @Model.Count()</span> Sản Phẩm
+                        </h4>
+                    </ul>
+                </nav>
+
+
+
+                <div class="row product__panel">
+                    @foreach (var product in Model)
+                    {
+                        <div class="product__panel-item col-lg-3 col-md-4 col-sm-6">
+                            <div class="product__panel-item-wrap" style="border-radius:4px">
+                                <div class="product__panel-img-wrap">
+                                    <a href="@Url.Action("ProductDetail","Food",new {id = product.ProductID})"><img src="~/Images/@product.Image" alt="" class="product__panel-img" style="height:105px;width:130px; border-radius:10px"></a>
+                                </div>
+                                <h3 class="product__panel-heading">
+                                    <a href="@Url.Action("ProductDetail","Food",new {id = product.ProductID})" class="product__panel-link">@product.Name</a>
+                                </h3>
+                                <div class="product__panel-price">
+                                    <span class="product__panel-price-current">
+                                        @Html.FormatValue(product.Price, "{0:#,##0}")đ
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+                <div class=" pagedList">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+                </div>
+
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .pagedList {
+        display: block;
+        text-align: center;
+        display: block;
+    }
+    /* CSS cho nút phân trang */
+    .pagedList a {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    /* CSS cho nút phân trang được chọn */
+    .pagedList .active a {
+        background-color: #337ab7;
+        border-color: #337ab7;
+        color: #fff;
+    }
+
+</style>

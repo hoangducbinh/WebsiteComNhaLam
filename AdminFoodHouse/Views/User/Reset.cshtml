@@ -1,0 +1,180 @@
+﻿@model AdminFoodHouse.Models.AccountBuy
+@{
+    Layout = null;
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js"
+            crossorigin="anonymous"></script>
+
+    <link href="~/Content/assets/css/styleSigninSignup.css" rel="stylesheet" />
+    <title>Đặt lại mật khẩu</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <link rel="icon" type="image/png" href="~/images/tomi.ico" />
+    <style>
+
+        .container:before {
+            content: "";
+            position: absolute;
+            height: 2000px;
+            width: 2000px;
+            top: -10%;
+            right: 48%;
+            transform: translateY(-50%);
+            background-image: linear-gradient(-45deg, #ff0000 0%, #fe046f 90%);
+            transition: 1.8s ease-in-out;
+            border-radius: 50%;
+            z-index: 6;
+        }
+    </style>
+
+</head>
+<body>
+    @if (ViewBag.ThongBao != null)
+    {
+        <script>
+        alert("@Html.Raw(@ViewBag.ThongBao)")
+        </script>
+    }
+
+
+
+
+
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary(true)
+
+                    <h2 class="title">Đặt lại mật khẩu</h2>
+
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Mật khẩu mới" name="newpass" />
+
+                    </div>
+                    <span style = "color: red;" > @ViewData["err1"] </span> 
+                    <input type="hidden" value="@Model.AccountBuyID" name="iduser" />
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Nhập lại phát nữa" name="enterpass" />
+                    </div>
+                    <span style="color: red;">@ViewData["err2"]</span>
+                    <input type="submit" value="Thay đổi" class="btn solid" />
+
+
+                    <p class="social-text"></p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+
+                }
+
+
+
+
+
+              
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>Chưa có tài khoản</h3>
+                    <p>
+                        Nhấn đăng ký ngay
+                    </p>
+                    <button onclick="window.location.href='@Url.Action("Register", "User")'" class="btn transparent" id="sign-up-btn">
+                        Đăng ký
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>Đã có tài khoản</h3>
+                    <p>
+                        Đăng nhập và chốt đơn ngay
+                    </p>
+                    <button onclick="window.location.href='@Url.Action("Login", "User")'" class="btn transparent">
+                        Đăng nhập
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.querySelector(".container");
+            container.classList.add("sign-in-mode");
+
+            const sign_in_btn = document.querySelector("#sign-in-btn");
+            const sign_up_btn = document.querySelector("#sign-up-btn");
+
+            sign_in_btn.addEventListener("click", () => {
+                container.classList.remove("sign-in-mode");
+            });
+
+            sign_up_btn.addEventListener("click", () => {
+                container.classList.add("sign-in-mode");
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

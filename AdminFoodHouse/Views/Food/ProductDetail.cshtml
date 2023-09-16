@@ -1,0 +1,298 @@
+﻿@model AdminFoodHouse.Models.Product
+@using AdminFoodHouse.Models
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+        function loadNewContent() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.documentElement.innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "User/Login", true);
+            xhttp.send();
+        }
+</script>
+
+
+
+<style>
+    .breadcrumb__text {
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
+        padding-left: 330px;
+    }
+
+    .checked {
+        color: orange;
+    }
+
+    <div class="stars" >
+    <form action="" >
+    <input class="star star-5" id="star-5" type="radio" name="star"/ >
+    <label class="star star-5" for="star-5" > </label >
+    <input class="star star-4" id="star-4" type="radio" name="star"/ >
+    <label class="star star-4" for="star-4" > </label >
+    <input class ="star star-3" id="star-3" type="radio" name="star"/ >
+    <label class="star star-3" for="star-3" > </label >
+    <input class="star star-2" id="star-2" type="radio" name="star"/ >
+    <label class="star star-2" for="star-2" > </label >
+    <input class="star star-1" id="star-1" type="radio" name="star"/ >
+    <label class="star star-1" for="star-1" > </label >
+    </form >
+    </div >
+
+
+    div.stars {
+        width: 270px;
+        display: inline-block;
+    }
+
+    input.star {
+        display: none;
+    }
+
+    label.star {
+        float: right;
+        padding: 10px;
+        font-size: 36px;
+        color: #444;
+        transition: all .2s;
+    }
+
+    input.star:checked ~ label.star:before {
+        content: '\f005';
+        color: #FD4;
+        transition: all .25s;
+    }
+
+    input.star-5:checked ~ label.star:before {
+        color: #FE7;
+        text-shadow: 0 0 20px #952;
+    }
+
+    input.star-1:checked ~ label.star:before {
+        color: #F62;
+    }
+
+    label.star:hover {
+        transform: rotate(-15deg) scale(1.3);
+    }
+
+    label.star:before {
+        content: '\f006';
+        font-family: FontAwesome;
+</style>
+
+<section class="product">
+    <div class="container">
+        <div class="row bg-white pt-4 pb-4 border-bt pc">
+            <article class="product__main col-lg-9 col-md-12 col-sm-12">
+                <div class="row">
+                    <div class="product__main-img col-lg-4 col-md-4 col-sm-12">
+                        <div class="product__main-img-primary">
+                            <img style="border-radius: 20px; width: 280px; height: 210px;" src="~/Images/@Model.Image">
+                        </div>
+                    </div>
+
+                    <div class="product__main-info col-lg-8 col-md-8 col-sm-12">
+                        <h2 class="product__main-info-heading">
+                            @Model.Name
+                        </h2>
+                        <div class="product__main-info-rate-wrap" style="font-size: 30px;">
+                            @Html.Action("Star", "Food", new { id = Model.ProductID })
+                        </div>
+                        <!--
+                    <div class="product__main-info-rate-wrap">
+                        <i class="fas fa-star product__main-info-rate"></i>
+                        <i class="fas fa-star product__main-info-rate"></i>
+                        <i class="fas fa-star product__main-info-rate"></i>
+                        <i class="fas fa-star product__main-info-rate"></i>
+                        <i class="fas fa-star product__main-info-rate"></i>
+                    </div>
+                        -->
+                        <div class="product__main-info-price">
+                            <span class="product__main-info-price-current" style="color:red">
+                                @Html.FormatValue(Model.Price, "{0:#,##0}")đ
+                            </span>
+                        </div>
+
+
+
+
+                        <style>
+                            .my-btn {
+                                color: white;
+                                padding: 2px 10px;
+                                border: none;
+                                cursor: pointer;
+                            }
+
+                                .my-btn:hover {
+                                    background-color: blueviolet;
+                                }
+                        </style>
+                        <div class="product__main-info-cart">
+                            <div class="product__main-info-cart-btn-wrap">
+                                <button class="product__main-info-cart-btn my-btn">
+
+                                    <a style="text-decoration: none; font-size: 16px; color: white; " href="@Url.Action("ThemGioHang", "ShoppingCart", new { msp = Model.ProductID, url = Request.Url.ToString() })">Thêm vào giỏ hàng</a>
+
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="product__main-info-contact">
+                            <a href="#" class="product__main-info-contact-fb ">
+                                <i class="fab fa-facebook-f"></i>
+                                Chat Facebook
+                            </a>
+                            <div class="product__main-info-contact-phone-wrap">
+                                <div class="product__main-info-contact-phone-icon">
+                                    <i class="fas fa-phone-alt "></i>
+                                </div>
+
+                                <div class="product__main-info-contact-phone">
+                                    <div class="product__main-info-contact-phone-title">
+                                        Gọi điện tư vấn
+                                    </div>
+                                    <div class="product__main-info-contact-phone-number">
+                                        ( 0352.860.701)
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+            <aside class="product__aside col-lg-3 col-md-0 col-sm-0">
+                <div class="product__aside-top">
+                    <div class="product__aside-top-item">
+                        <img src="~/Images/shipper.png">
+                        <div class="product__aside-top-item-text">
+                            <p>
+                                Giao hàng nhanh chóng
+                            </p>
+                            <span>
+                                Chỉ trong vòng 2h
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product__aside-top-item">
+                        <img src="~/Images/brand.png">
+                        <div class="product__aside-top-item-text">
+                            <p>
+                                Sản phẩm an toàn
+                            </p>
+                            <span>
+                                Sản phẩm không độc hại
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product__aside-top-item">
+                        <img src="~/Images/less.png">
+                        <div class="product__aside-top-item-text">
+                            <p>
+                                Mua hàng tiết kiệm
+                            </p>
+                            <span>
+                                Rẻ hơn từ 10% đến 30%
+                            </span>
+                        </div>
+                    </div>
+            </aside>
+        </div>
+
+        <section class="product">
+            <div>
+                <div class="row bg-white pt-4 pb-4 border-bt pc ">
+                    <div class="col-lg-12" style="font-size: 20px;">
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                       aria-selected="true">Mô tả</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                       aria-selected="false">Đánh giá<span></span></a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                    <div class="product__details__tab__desc" style="font-size: 16px;">
+                                        
+                                        <p>
+                                            @Model.Decription
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                    <div class="product__details__tab__desc" style="font-size: 16px;">
+                                        
+                                        @Html.Action("Review", "Food", new { id = Model.ProductID })
+                                    </div>
+                                    @{
+                                        AccountBuy ac = (AccountBuy)Session["TaiKhoan"];
+                                    }
+                                    @if (ac != null)
+                                    {
+                                        using (Html.BeginForm("InsertReview", "Food", new { id = Model.ProductID }))
+                                        {
+
+                                            <div>
+                                                
+                                                <div class="stars">
+                                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5">
+                                                    <label class="star star-5" for="star-5"></label>
+                                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4">
+                                                    <label class="star star-4" for="star-4"></label>
+                                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3">
+                                                    <label class="star star-3" for="star-3"></label>
+                                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2">
+                                                    <label class="star star-2" for="star-2"></label>
+                                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1">
+                                                    <label class="star star-1" for="star-1"></label>
+                                                </div>
+                                                <div><textarea name="comment" rows="8" cols="100" style="font-size:22px"></textarea></div>
+
+                                                <div><input type="submit" value="Gửi đánh giá" style="font-size:16px;" /></div>
+
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

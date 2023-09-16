@@ -1,0 +1,432 @@
+﻿@using AdminFoodHouse.Models
+@model IList<AdminFoodHouse.Models.CartDetail>
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+
+@if (ViewBag.ThongBao != null)
+{
+    <script>
+        alert("@Html.Raw(@ViewBag.ThongBao)")
+    </script>
+}
+
+<style>
+    .breadcrumb__text {
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
+        padding-left: 414px;
+    }
+</style>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 100%;
+    }
+
+    body {
+        font-size: 100%;
+        font-family: Roboto;
+    }
+
+    th, td {
+        border: 1px solid #18d0de;
+        padding: 8px;
+    }
+
+
+    .btn {
+        color: white;
+        padding: 2px 10px;
+        border: none;
+        cursor: pointer;
+        background-color: #18d0de;
+    }
+
+        /* Màu nền của button khi di chuột qua */
+        .btn:hover {
+            background-color: mediumvioletred;
+            color: #18d0de;
+        }
+</style>
+
+
+
+
+<!--
+    <section class="product">
+    <div class="container">
+        <div class="bg-white " style="height:800px">
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</section>
+    -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="product" style="font-size:16px">
+    <div class="container">
+        <div class="bg-white ">
+            <ul class="product__list hide-on-mobile" style="background-color:red;color:white">
+
+                <h2 style="text-align:center;margin-right:42% ">
+                    Chốt đơn liền cho em
+                </h2>
+            </ul>
+            <!-- Breadcrumb Section End -->
+            <!-- Checkout Section Begin -->
+            <section class="checkout spad">
+                <div class="container">
+                    @using (Html.BeginForm("Payment", "ShoppingCart", FormMethod.Post, new { ds = Model }))
+                    {
+                        AccountBuy ac = (AccountBuy)Session["TaiKhoan"];
+                        @Html.AntiForgeryToken()
+                        <div class="checkout__form " style="margin-bottom:50px">
+
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-6">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p>Họ và tên<span>*</span></p>
+                                                    <input type="text" name="name" value="@ac.UserName">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="checkout__input">
+                                            <p>Địa chỉ<span style="color:red;">* @ViewData["err1"]</span></p>
+                                            <input type="text" value="@ac.Address" name="address">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p>Số điện thoại<span style="color:red;">* @ViewData["err2"]</span></p>
+                                                    <input type="text" name="sdt" value="@ac.PhoneNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p>Email<span>*</span></p>
+                                                    <input type="text" name="email" value="@ac.Email">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="checkout__input">
+                                            <p>Nhập lại mật khẩu để xác nhận đặt hàng<span style="color:red;">* @ViewData["err3"]</span></p>
+                                            <input type="password" name="password">
+                                        </div>
+                                        <div class="checkout__input">
+                                            <p>Ghi chú<span>*</span></p>
+                                            <input type="text"
+                                                   placeholder="Notes about your order, e.g. special notes for delivery.">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="checkout__order">
+                                            <h4 style="text-align:center; font-size:16px">Đơn hàng của bạn</h4>
+                                            <table>
+                                                <thead>
+                                                    <tr style="background-color: #18d0de; color:#f3fefb">
+                                                        <th>Sản phẩm</th>
+                                                        <th>Giá</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+
+
+
+                                                    @for (var i = 0; i < Model.Count(); i++)
+                                                    {
+
+                                                        @Html.HiddenFor(m => m[i].CartDetailID);
+                                                        @Html.HiddenFor(m => m[i].ProductID);
+                                                        @Html.HiddenFor(m => m[i].ShoppingCartID);
+                                                        FoodStoreEntities1 db = new FoodStoreEntities1();
+                                                        int id = Convert.ToInt32(Model[i].ProductID);
+                                                        Product pd = db.Products.SingleOrDefault(n => n.ProductID == id);
+
+                                                        <tr>
+                                                            <td> @pd.Name</td>
+
+                                                            <td>
+                                                                <span>@Html.FormatValue(Model[i].Price * Model[i].Quantity, "{0:#,##0}")VNĐ</span>
+                                                            </td>
+
+                                                        </tr>
+                                                    }
+                                                    <tr style="background-color: #18d0de; color:#f3fefb">
+                                                        <td><strong>Tổng tiền</strong></td>
+                                                        <td style="background-color: red;">
+                                                            <span><strong>@ViewBag.TongTien VND</strong> </span>
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+
+                                            <!--<div class="checkout__order__subtotal">Subtotal <span>@ViewBag.TongTien</span></div>
+                                            -->
+
+                                            <p style="text-align:center; margin-top:20px">
+                                                Chọn hình thức thanh toán
+                                            </p>
+
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="pay" value="0">
+                                                    <p style="padding-left:18px;"><b><strong>Thanh toán khi nhận hàng</strong> </b></p>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="pay" value="1">
+                                                    <p style="padding-left:18px;"><b>VNPAY</b></p>
+                                                </label>
+
+
+
+
+
+
+                                            </div>
+                                            <div>
+                                                <button style="margin-left:25%; width: 180px; align-content: center; color: #f3fefb; font-size: 18px; margin-top: 3px; text-decoration: none;" type="submit" class="site-btn btn">Đặt hàng</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </section>
+            <!-- Checkout Section End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<style>
+
+    .checkout__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .checkout__input {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+        .checkout__input label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .checkout__input input[type="text"],
+        .checkout__input input[type="email"],
+        .checkout__input select {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .checkout__input span {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+
+    .checkout__order__subtotal {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 20px;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+    }
+
+
+
+
+
+
+    .checkout__order {
+        margin-top: 20px;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+    }
+
+        .checkout__order table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .checkout__order table td, .checkout__order table th {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .checkout__order table th {
+                text-align: left;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+        .checkout__order .total {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkout__order .btn {
+            margin-top: 10px;
+        }
+
+
+    .checkout__order__products {
+        margin-top: 20px;
+    }
+
+        .checkout__order__products table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .checkout__order__products table td, .checkout__order__products table th {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .checkout__order__products table th {
+                text-align: left;
+                background-color: #f2f2f2;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .checkout__order__products table td img {
+                max-width: 100px;
+            }
+
+        .checkout__order__products .total {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkout__order__products .btn {
+            margin-top: 10px;
+        }
+
+
+    .checkout__order__total {
+        margin-top: 20px;
+    }
+
+        .checkout__order__total .row {
+            border-top: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+            .checkout__order__total .row:last-child {
+                margin-top: 20px;
+            }
+
+        .checkout__order__total .col-6 {
+            padding-top: 10px;
+        }
+
+        .checkout__order__total .text-right {
+            text-align: right;
+        }
+
+        .checkout__order__total .text-primary {
+            color: #007bff;
+        }
+
+
+    .form-check-label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-left: 10px;
+        text-align: left;
+        padding-top: 5px;
+    }
+
+    .checkout__spad {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+</style>
+

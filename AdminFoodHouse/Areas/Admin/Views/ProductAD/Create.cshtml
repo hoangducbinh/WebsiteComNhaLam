@@ -1,0 +1,95 @@
+﻿@model AdminFoodHouse.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card">
+    <div class="card-body">
+<h2>Thêm Sản Phẩm</h2>
+        
+
+@using (Html.BeginForm("Create", "", FormMethod.Post, new { @enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Tên sản phẩm
+        </label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="exampleInputUsername1" size="70" name="sTenSP"  required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Giá bán:
+        </label>
+        <div class="col-md-10">
+            <input type="number" class="form-control" id="exampleInputUsername1" min="1" required name="mGiaBan" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Mô tả:
+        </label>
+        <div class="col-md-10">
+            <textarea id="textarea" name="sMoTa"></textarea>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Ảnh minh họa:
+        </label>
+        <div class="col-md-10">
+            <input type="file" name="fFileUpload" />
+            @ViewBag.ThongBao
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Số lượng:
+        </label>
+        <div class="col-md-10">
+            <input type="number" class="form-control" id="exampleInputUsername1" min="1" required name="sSoluong" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            Loại sản phẩm
+        </label>
+        <div class="col-md-10">
+            @Html.DropDownList("CategoryID")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @{
+                var categoryList = (ViewBag.CategoryID as SelectList).ToList();
+                int count = categoryList.Count();
+                if (count < 1)
+                {
+                    <input type="submit" value="Thêm Mới" class="btn btn-success btn-sm" disabled />
+                    <p>Bạn phải có danh mục mới có thể thêm sản phẩm</p>
+                }
+                else
+                {
+                    <input type="submit" value="Thêm Mới" class="btn btn-success btn-sm" />
+                }
+            }
+            
+            <input type="reset" value="Làm Mới" class="btn btn-danger btn-sm" />
+            <a href="@Url.Action("Index")" class="btn btn-success btn-sm" role="button">Trở Về</a>
+        </div>
+    </div>
+</div>
+}
+
+
+        </div>
+    </div>

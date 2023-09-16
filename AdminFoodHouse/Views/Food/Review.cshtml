@@ -1,0 +1,36 @@
+﻿@using AdminFoodHouse.Models;
+@model IEnumerable<AdminFoodHouse.Models.Rate_>
+
+<div class="review-content" style="height: 300px; overflow-y: scroll;">
+
+    @{
+        var now = DateTime.Now.ToString(" dd/MM/yyyy vào lúc HH:mm");
+        var comments = Model.OrderByDescending(c => c.Date).ToList();
+    }
+
+
+    @foreach (var comment in comments)
+    {
+        FoodStoreEntities1 db = new FoodStoreEntities1();
+        AccountBuy account = db.AccountBuys.SingleOrDefault(a => a.AccountBuyID == comment.AccountID);
+
+        <div>
+            <div><i class="fas fa-turkey" style="font-size: 30px; color: orchid;"></i> @account.UserName</div>
+
+            @for (int i = 0; i < comment.NumberStar; i++)
+            {
+                <span class="fa fa-star checked"></span>
+            }
+
+            @for (int i = 0; i < 5 - comment.NumberStar; i++)
+            {
+                <span class="fa fa-star"></span>
+            }
+
+            <p>@now</p>
+            <p style="font-size:16px;">
+                @comment.Comment
+            </p>
+        </div>
+    }
+</div>

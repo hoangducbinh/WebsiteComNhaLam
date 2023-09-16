@@ -1,0 +1,109 @@
+﻿@model PagedList.IPagedList<AdminFoodHouse.Models.Product>
+@using PagedList.Mvc;
+@helper Truncate(string s, int length)
+{if (s.Length < length)
+    {@s }
+else
+{ @s.Substring(0, length)<text>...</text>}}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Areas2/Views/Shared/_LayoutAdmin1.cshtml";
+}
+<div class="card">
+    <div class="card-body">
+        <h2>Quản Lý Sản Phẩm</h2>
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <div class="search-field d-none d-md-block">
+                <form class="d-flex align-items-center h-100" action="#">
+                    <div class="input-group">
+                        <div class="input-group-prepend bg-transparent">
+                            <button type="submit" class="input-group-text border-0 mdi mdi-magnify"></button>
+                        </div>
+                        <input type="text" class="form-control bg-transparent border-0" name="searchString" id="searchString" placeholder="Nhập tên sản phẩm">
+                    </div>
+                </form>
+            </div>
+        }
+        <div class="table-responsive">
+            <table id="zero_config"
+                   class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Giá Bán</th>
+
+                        <th>Ảnh</th>
+                        <th>Số Lượng</th>
+                        <th>Loại</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price, "{0:#,##0}")
+                            </td>
+
+                            <td>
+                                <img src="~/Images/@item.Image" style="width:50px;" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoryP.Name)
+                            </td>
+                            <td>
+                                @if (item.Status == 0)
+                                {<p>Chưa Duyệt</p>}
+                                else if (item.Status == 1)
+                                { <p>Đã Duyệt</p>}
+                            </td>
+                            <td id="dropdown1" style="width:20px">
+                                @if (item.Status == 0)
+                                {<a href="~/Areas2/Product/Brows/@item.ProductID" class="btn btn-warning btn-sm" role="button">Duyệt</a>}
+                                else if (item.Status == 1)
+                                {<a href="~/Areas2/Product/Brows/@item.ProductID" class="btn btn-warning btn-sm" role="button">Hủy Duyệt</a>}
+
+                                <a href="@Url.Action("Details", new { id = item.ProductID })" class="btn btn-primary btn-sm" role="button">Chi tiết</a>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+            <br />
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                    @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+                    {
+                        <p>
+                            Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.Size, new { @onchange = "this.form.submit();" })
+                        </p>
+
+                        @Html.Hidden("page", (object)ViewBag.Page)
+                        @Html.Hidden("sortProperty", (object)ViewBag.SortProperty)
+                        @Html.Hidden("sortOrder", (object)ViewBag.SortOrder)
+                        @Html.Hidden("searchString", (object)ViewBag.Keyword)
+                        @Html.Hidden("categoryID", (object)ViewBag.Subject)
+                    }
+
+                </div>
+
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = ViewBag.CurrentSize, sortProperty = ViewBag.SortProperty, sortOrder = ViewBag.SortOrder, searchString = ViewBag.Keyword }))
+            </div>
+
+        </div>
+    </div>
+</div>

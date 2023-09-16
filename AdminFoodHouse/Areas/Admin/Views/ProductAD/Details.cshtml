@@ -1,0 +1,86 @@
+﻿@model AdminFoodHouse.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card">
+    <div class="card-body">
+        <h2>Thông Tin Sản Phẩm</h2>
+
+        <div>
+
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Tên Sản Phẩm
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    Giá
+                </dt>
+
+                <dd>
+                    @Html.FormatValue(@Model.Price, "{0:#,##0}") VNĐ
+                </dd>
+
+                <dt>
+                    Thông tin
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Decription)
+                </dd>
+
+
+                <dd>
+                    <img src="~/Images/@Model.Image" alt=" @Model.Name">
+                </dd>
+
+                <dt>
+                    Số Lượng
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Amount)
+                </dd>
+
+                <dt>
+                    Loại sản phẩm
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CategoryP.Name)
+                </dd>
+
+                <dt>
+                    Người bán
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AccountSell.DisplayName)
+                </dd>
+
+                <dt>
+                    Trạng Thái
+                </dt>
+
+                <dd>
+                    @if (Model.Status == 0)
+                    {<p>Chưa Duyệt</p>}
+                    else if (Model.Status == 1)
+                    { <p>Đã Duyệt</p>}
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            <a href="@Url.Action("Edit", new { id = Model.ProductID })" class="btn btn-warning btn-sm" role="button">Sửa</a>|
+            <a href="@Url.Action("Index")" class="btn btn-success btn-sm" role="button">Trở Về</a>
+        </p>
+        </div>
+</div>

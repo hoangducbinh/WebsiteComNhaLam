@@ -1,0 +1,93 @@
+﻿
+@using AdminFoodHouse.Models
+
+
+@{
+    AccountBuy ac = (AccountBuy)Session["TaiKhoan"];
+}
+
+@if (Session["TaiKhoan"] != null)
+{
+    <div class="dropdown">
+        <button class=" btn-secondary dropbtn" type="button">
+            
+                <span class="glyphicon glyphicon-user"></span> Xin chào:@ac.UserName
+            </button>
+        <div class="dropdown-content card" style="width:190px;color:white">
+
+            <li style="font-size: 17px; color: white">  <a href="@Url.Action("Logout", "User")" style="text-decoration:none;">  Đăng xuất</a></li>
+            <li style="font-size: 17px; color: white">   <a href="@Url.Action( "Info", "User")" style="text-decoration:none;">Thay đổi thông tin</a></li>
+            <li style="font-size: 17px; color: white"><a href="@Url.Action("ManageOrder", "HistoryOrder")" style="text-decoration:none;">Quản lý đơn đặt hàng</a></li>
+
+        </div>
+    </div>
+}
+
+else
+{
+    <li style="color: aliceblue; font-size: 16px ">
+        <span class="glyphicon glyphicon-user"></span><a style="color: white; font-size: 14px; margin-left: 3px; text-decoration: none;" href="@Url.Action("Register", "User")">Đăng ký</a>
+    </li>
+
+   
+        <li style="color: aliceblue; margin-left: 18px; font-size: 16px">
+            <span class="glyphicon glyphicon-log-in"></span><a style="color: white; font-size: 14px; margin-left: 4px; text-decoration: none; " href="@Url.Action("Login", "User")">Đăng nhập</a>
+        </li>
+      
+        }
+
+
+
+
+        <style>
+            /* Dropdown Button */
+            .dropbtn {
+                background-color: transparent;
+                color: white;
+                padding: 2px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+
+                /* Dropdown button on hover & focus */
+                .dropbtn:hover, .dropbtn:focus {
+                    background-color: #FF6633;
+                }
+
+            /* The container <div> - needed to position the dropdown content */
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            /* Dropdown Content (Hidden by Default) */
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                z-index: 1;
+            }
+
+                /* Links inside the dropdown */
+                .dropdown-content a {
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                }
+
+                    /* Change color of dropdown links on hover */
+                    .dropdown-content a:hover {
+                        background-color: #FF6633
+                    }
+
+            /* Show the dropdown menu on hover */
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            /* Change the background color of the dropdown button when the dropdown content is shown */
+            .dropdown:hover .dropbtn {
+                background-color: #FF6633;
+            }
+        </style>

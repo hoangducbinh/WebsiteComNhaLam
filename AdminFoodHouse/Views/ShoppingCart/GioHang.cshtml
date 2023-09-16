@@ -1,0 +1,354 @@
+﻿@using AdminFoodHouse.Models
+@model List<CartDetail>
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .breadcrumb__text {
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
+        padding-left: 450px;
+    }
+
+    th {
+        text-align: center;
+    }
+
+
+
+    .pro-qty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .pro-qty input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+    .qty-minus,
+    .qty-plus {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: #f2f2f2;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+
+        .qty-minus:hover,
+        .qty-plus:hover {
+            background: #e6e6e6;
+        }
+
+
+
+    th, td {
+        border: 1px solid #18d0de;
+        padding: 8px;
+    }
+</style>
+
+
+
+
+
+
+
+
+<!-- Shoping Cart Section Begin -->
+@if (ViewBag.ThongBao != null)
+{
+    <script>
+        alert("@Html.Raw(@ViewBag.ThongBao)")
+    </script>
+}
+
+
+
+<!-- Shoping Cart Section End -->
+<script type="text/javascript">
+    function AddCheckedProducts() {
+        var value = 0.0;
+        for (var i = 0; i < CSC_checkbox_IDs2.length; i++) {
+            var d = document.getElementById(CSC_checkbox_IDs2[i]);
+            if (d.checked) { value += parseFloat(d.value); }
+        }
+        document.getElementById(CSC_total_spot2).innerHTML = value.toFixed(2);
+    }
+    AddCheckedProducts();
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('.qty-minus').click(function () {
+            var input = $(this).parent().find('input');
+            var value = parseInt(input.val());
+            if (value > 1) {
+                input.val(value - 1);
+            }
+        });
+
+        $('.qty-plus').click(function () {
+            var input = $(this).parent().find('input');
+            var value = parseInt(input.val());
+            input.val(value + 1);
+        });
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+<section class="product">
+    <div class="container">
+        <div class="row bg-white pt-4 pb-4 border-bt pc">
+
+            <section class="shoping-cart spad" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="shoping__cart__table">
+                                <table style="border: 0.1px solid #18d0de">
+                                    <thead style="font-size:24px">
+                                        <tr style="background-color: #18d0de; color:#f3fefb">
+                                            <th class="shoping__product" style="width:22%;">Hình ảnh</th>
+                                            <th style="width:30%;">Tên</th>
+                                            <th>Giá</th>
+                                            <th style="width:10%">Số lượng</th>
+
+                                            <th style="width:18%">Tổng tiền</th>
+                                            <th>Chức năng</th>
+
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody style="font-size:16px">
+                                        @foreach (var item in Model)
+                                        {
+                                            FoodStoreEntities1 db = new FoodStoreEntities1();
+                                            Product pd = db.Products.SingleOrDefault(n => n.ProductID == item.ProductID);
+                                            <tr>
+
+                                                <td class="shoping__cart__item" style=" flex-wrap: nowrap;text-align:center">
+
+                                                    <img src="~/Images/@pd.Image" alt="" style="border-radius: 8px; width: 170px; height: 130px;">
+
+                                                </td>
+                                                <td style="text-align: center;"><h5 style="margin-top: 8px;">@pd.Name</h5> </td>
+
+                                                <td class="shoping__cart__price" style="font-size:16px">
+                                                    @Html.FormatValue(item.Price, "{0:#,##0}")Đ
+                                                </td>
+                                                @using (Html.BeginForm("CapNhatGioHang", "ShoppingCart", new { ProductID = item.ProductID }))
+                                                {
+                                                    <td class="shoping__cart__quantity">
+                                                        <div class="quantity newQuantity price newTotalPrice quantityInputs">
+
+                                                            <div class="pro-qty">
+                                                                <span class="qty-minus" name="Update">-</span>
+                                                                <input type="number" name="quantity" id="quantity_@item.ProductID" style="font-size:16px" value="@item.Quantity">
+                                                                <span class="qty-plus" name="Update">+</span>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                    </td>
+                                                    <td class="shoping__cart__total newQuantity price newTotalPrice" data-price="@item.TotalPrice" style="font-size: 16px; text-align: center;">
+                                                        @Html.FormatValue(@item.TotalPrice, "{0:#,##0}")Đ
+                                                    </td>
+
+                                                    <td style="text-align: center;">
+
+
+                                                        <input class="btn newQuantity price newTotalPrice" style="width: 160px; color: #f3fefb; font-size: 14px; margin-top: 3px; text-decoration: none;" type="submit" name="Update" value="Cập nhật số lượng" />
+
+                                                        <button class="btn btn-default " style="text-decoration: none; width: 160px; margin-top: 3px">
+                                                            <a href="@Url.Action("Payment", "ShoppingCart", new { id = item.ProductID, Totalprice = @item.TotalPrice })" style="text-decoration: none; color: white; font-size:14px">Đặt hàng</a>
+                                                        </button>
+
+                                                        <button class="btn btn-default " style="text-decoration: none; width: 160px; margin-top: 3px">
+
+                                                            <a href="@Url.Action("Delete","ShoppingCart",new {idProduct=item.ProductID})" style="width: 160px; color: #f3fefb; font-size: 14px; margin-top: 3px; text-decoration: none;"> Xóa</a>
+                                                        </button>
+
+                                                    </td>
+                                                }
+
+
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+
+
+
+                                    <tr style="background-color: #18d0de; color:#f3fefb">
+                                        <th></th>
+                                        <th>
+                                            <div style="font-size:16px;color:black">
+                                                <input type="text" placeholder="Nhập mã giảm giá">
+                                            </div>
+                                        </th>
+
+                                        <th class="hover-me color nopadding" style="width: 150px; height:15px;">
+                                            <button style="font-size: 14px; width: 100%;height:100%; outline: none; border: none; " type="submit" class="btn1"  >Dùng mã</button>
+                                        </th>
+
+                                        <th><h4>Tổng tiền</h4></th>
+                                        <th style="background-color: #f13dad;">
+
+                                            <span style="font-size:16px;color:#f3fefb">@Html.FormatValue(@ViewBag.Tongtien, "{0:#,##0}")Đ</span>
+
+                                        </th>
+                                        <th class="hover-me color">
+                                            <div>
+                                                <a style="text-decoration: none; font-size: 16px; color: white; " href="@Url.Action("Index","Food", new { id = 7 })" class="btn-defaul">Mua thêm</a>
+                                            </div>
+                                        </th>
+                                    </tr>
+
+
+                                </table>
+                                <div style="margin-left:46% ">
+                                    <button class="my-btn" style="width: 160px; margin-top: 10px;">
+
+                                        <a href="@Url.Action("Payment","ShoppingCart",new {id=0 ,Totalprice=0})" style="text-decoration: none; font-size: 18px;  color: white;">CHỐT ĐƠN</a>
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <style>
+                        .my-btn {
+                            color: white;
+                            padding: 2px 10px;
+                            border: none;
+                            cursor: pointer;
+                            background-color: #18d0de;
+                        }
+
+                            .my-btn:hover {
+                                background-color: orangered;
+                            }
+
+
+
+                        input[type="submit"] {
+                            outline: none;
+                        }
+
+                    </style>
+
+                    <style>
+                        /* CSS cho các button */
+                        .btn {
+                            color: white;
+                            padding: 2px 10px;
+                            border: none;
+                            cursor: pointer;
+                            background-color: #18d0de;
+                        }
+
+                            /* Màu nền của button khi di chuột qua */
+                            .btn:hover {
+                                background-color: orangered;
+                                color: #18d0de;
+                            }
+
+
+                        .btn1 {
+                            color: white;
+                            border: none;
+                            background-color: orangered;
+                        }
+
+                            .btn1:hover {
+                                background-color: #18d0de;
+                            }
+
+                    </style>
+
+
+                    <style>
+                        th.hover-me:hover {
+                            background-color: #18d0de;
+                        }
+                        th.color {
+                            background-color: orangered;
+                        }
+
+                        th.nopadding {
+                            padding: 0px;
+                        }
+                    </style>
+
+
+
+                    
+
+
+
+
+
+                </div>
+            </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        </div>
+
+
+
+    </div>
+</section>

@@ -1,0 +1,69 @@
+﻿@model PagedList.IPagedList<AdminFoodHouse.Models.CategoryP>
+@using PagedList.Mvc;
+@helper Truncate(string s, int length)
+{if (s.Length < length)
+    {@s }
+else
+{ @s.Substring(0, length)<text>...</text>}}
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card">
+    <div class="card-body">
+        <h2>Quản Lý Danh Mục</h2>
+        @using (Html.BeginForm("Index", "CatagoryAD", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <div class="search-field d-none d-md-block">
+                <form class="d-flex align-items-center h-100" action="#">
+                    <div class="input-group">
+                        <div class="input-group-prepend bg-transparent">
+                            <button type="submit" class="input-group-text border-0 mdi mdi-magnify"></button>
+                        </div>
+                        <input type="text" class="form-control bg-transparent border-0" name="searchString" id="searchString" placeholder="Nhập tên loại sản phẩm">
+                    </div>
+                </form>
+            </div>
+        }
+        <a href="@Url.Action("Create")" class="btn btn-success btn-sm" role="button" style="color:white;text-align:right">Thêm Mới</a>
+        <!-- Modal -->
+
+        <div class="table-responsive">
+            <table id="zero_config"
+                   class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tên Danh Mục</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td id="dropdown1" style="width:20px">
+                                <a href="@Url.Action("Edit", new { id = item.CategoryID })" class="btn btn-warning btn-sm" role="button">Sửa</a>
+                                <a href="@Url.Action("Delete", new { id = item.CategoryID })" class="btn btn-danger btn-sm" role="button">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+            <br />
+            <div class="row">
+
+
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, size = ViewBag.CurrentSize, sortProperty = ViewBag.SortProperty, sortOrder = ViewBag.SortOrder, searchString = ViewBag.Keyword }))
+            </div>
+
+        </div>
+    </div>
+</div>

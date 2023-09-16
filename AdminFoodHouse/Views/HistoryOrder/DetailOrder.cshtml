@@ -1,0 +1,350 @@
+﻿@using AdminFoodHouse.Models
+@model AdminFoodHouse.Models.OrderDetail
+@{
+    ViewBag.Title = "DetailOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 100%;
+    }
+
+    body {
+        font-size: 100%;
+        font-family: Roboto;
+    }
+    th, td {
+        border: 1px solid #18d0de;
+        padding: 8px;
+    }
+    .btn {
+        color: white;
+        padding: 2px 10px;
+        border: none;
+        cursor: pointer;
+        background-color: #18d0de;
+    }
+
+        /* Màu nền của button khi di chuột qua */
+        .btn:hover {
+            background-color: mediumvioletred;
+            color: #18d0de;
+        }
+
+</style>
+
+
+
+
+
+<section class="product">
+    <div class="container">
+        <div class=" bg-white">
+
+            <ul class="product__list hide-on-mobile" style="background-color:red;color:white">
+
+                <h2 style="text-align:center;margin-right:42% ;font-size:16px">
+                  
+                    Thông tin đơn hàng
+                </h2>
+            </ul>
+
+
+            <!-- Checkout Section Begin -->
+            <section class="checkout spad">
+                <div class="container">
+                    @using (Html.BeginForm("Edit", "HistoryOrder", new { id = Model.OrderDetailID }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="checkout__form">
+
+
+
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-lg-8 col-md-6">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p style="font-size:16px">Họ và tên<span>*</span></p>
+                                                    <input type="text" name="name" value="@Model.CustomerName">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="checkout__input">
+                                            <p style="font-size:16px">Địa chỉ<span>*</span></p>
+                                            <input type="text" value="@Model.Address" name="address">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p style="font-size:16px">Số điện thoại<span>*</span></p>
+                                                    <input type="text" name="sdt" value="@Model.PhoneNumber">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="checkout__input">
+                                                    <p style="font-size:16px">Email<span>*</span></p>
+                                                    <input type="text" name="email" value="@Model.Email">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="checkout__order">
+                                            <h4 style="text-align:center">Đơn hàng của bạn</h4>
+                                            <table>
+                                                <thead>
+                                                    <tr style="background-color: #18d0de; color:#f3fefb">
+                                                        <th>Sản phẩm</th>
+                                                        <th>Giá</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                    @{FoodStoreEntities1 db = new FoodStoreEntities1();
+                                                        int id = Convert.ToInt32(Model.ProductID);
+                                                        Product pd = db.Products.SingleOrDefault(n => n.ProductID == id);
+
+                                                        <tr>
+                                                            <td style="font-size:16px">@pd.Name</td>
+                                                            <td>
+                                                                <span style="font-size:16px">
+
+                                                                    @Html.FormatValue(pd.Price * Model.Quantity, "{0:#,##0}")VNĐ
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+
+
+
+                                                    }
+
+
+
+
+
+
+                                                    <p style="font-size:16px">
+                                                        @if (Model.PayStatus == 0)
+                                                        {
+                                                            <h5 style="color:red">Chưa thanh toán</h5>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h5 style="color:green">Đã thanh toán</h5>
+                                                        }
+                                                    </p>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                       
+                            <button style="margin-left: 25%; width: 180px; align-content: center; color: #f3fefb; font-size: 18px; margin-top: 3px; margin-bottom: 30px; text-decoration: none;" type="submit" class="site-btn btn">Thay đổi thông tin</button>
+                        
+                    }
+                </div>
+            </section>
+
+
+
+
+
+
+
+
+
+        </div>
+        </div>
+    </section>
+
+
+
+
+          
+
+
+
+
+
+
+
+<style>
+
+    .checkout__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .checkout__input {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+        .checkout__input label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .checkout__input input[type="text"],
+        .checkout__input input[type="email"],
+        .checkout__input select {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .checkout__input span {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+
+    .checkout__order__subtotal {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 20px;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+    }
+
+
+
+
+
+
+    .checkout__order {
+        margin-top: 20px;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+    }
+
+        .checkout__order table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .checkout__order table td, .checkout__order table th {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .checkout__order table th {
+                text-align: left;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+        .checkout__order .total {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkout__order .btn {
+            margin-top: 10px;
+        }
+
+
+    .checkout__order__products {
+        margin-top: 20px;
+    }
+
+        .checkout__order__products table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .checkout__order__products table td, .checkout__order__products table th {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .checkout__order__products table th {
+                text-align: left;
+                background-color: #f2f2f2;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .checkout__order__products table td img {
+                max-width: 100px;
+            }
+
+        .checkout__order__products .total {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkout__order__products .btn {
+            margin-top: 10px;
+        }
+
+
+    .checkout__order__total {
+        margin-top: 20px;
+    }
+
+        .checkout__order__total .row {
+            border-top: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+            .checkout__order__total .row:last-child {
+                margin-top: 20px;
+            }
+
+        .checkout__order__total .col-6 {
+            padding-top: 10px;
+        }
+
+        .checkout__order__total .text-right {
+            text-align: right;
+        }
+
+        .checkout__order__total .text-primary {
+            color: #007bff;
+        }
+
+
+    .form-check-label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-left: 10px;
+        text-align: left;
+        padding-top: 5px;
+    }
+
+    .checkout__spad {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+</style>

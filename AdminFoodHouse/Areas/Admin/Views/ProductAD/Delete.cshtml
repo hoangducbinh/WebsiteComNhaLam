@@ -1,0 +1,21 @@
+﻿@model AdminFoodHouse.Models.Product
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+<div class="card">
+    <div class="card-body" style="padding:204px;margin:auto">
+        <p>Bạn có muốn xóa sản phẩm này</p>
+
+
+        <input type="submit" value="Có" class="btn btn-success btn-sm" />
+        <a href="/Admin/ProductAD/Index" class="btn btn-primary btn-sm" role="button">Không</a>
+
+    </div> <!-- cd-popup-container -->
+</div>
+    }
+

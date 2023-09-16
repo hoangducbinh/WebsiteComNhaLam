@@ -1,0 +1,147 @@
+﻿@using AdminFoodHouse.Models
+@model IEnumerable<AdminFoodHouse.Models.OrderDetail>
+@{
+    ViewBag.Title = "ManageOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .breadcrumb__text {
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
+        padding-left: 330px;
+    }
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 100%;
+    }
+
+    body {
+        font-size: 100%;
+        font-family: Roboto;
+    }
+
+    th, td {
+        border: 1px solid #18d0de;
+        padding: 8px;
+    }
+</style>
+
+
+
+
+
+
+
+<section class="product">
+    <div class="container">
+        <div class="bg-white " style="height:auto">
+            <div class="review-content" style="height: 550px; overflow-y: scroll;">
+                <section class="shoping-cart spad">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="shoping__cart__table">
+                                    <table style="margin-top:20px;font-size:16px;">
+                                        <thead>
+                                            <tr style="text-align: center; background-color: #18d0de;color:white">
+                                                <th class="shoping__product" style="width:22%;">Hình ảnh</th>
+                                                <th style="width:10%;">Tên</th>
+                                                <th style="width: 15%;">Giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Thanh toán</th>
+                                                <th>Trạng thái</th>
+                                                <th>Xem</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                FoodStoreEntities1 db = new FoodStoreEntities1();
+                                                Product pd = db.Products.FirstOrDefault(n => n.ProductID == item.ProductID);
+                                                <tr>
+                                                    <td class="shoping__cart__item" style=" flex-wrap: nowrap;text-align:center">
+
+                                                        <img src="~/Images/@pd.Image" alt="" style="border-radius: 8px; width: 170px; height: 130px;">
+
+                                                    </td>
+                                                    <td style="text-align: center;"><h5 style="margin-top: 8px;">@pd.Name</h5> </td>
+                                                    <td class="shoping__cart__price" style="text-align: center">
+                                                        @Html.FormatValue(pd.Price, "{0:#,##0}")VNĐ
+                                                    </td>
+                                                    <td class="shoping__cart__price" style="text-align: center">
+
+                                                        <h5>@item.Quantity</h5>
+                                                    </td>
+
+                                                    <td class="shoping__cart__total" style="text-align: center">
+                                                        @{
+                                                            var tt = @item.Quantity * @pd.Price;
+                                                        }
+                                                        <h5>@tt</h5>
+
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        @{
+                                                            if (item.PayStatus == 0)
+                                                            {
+                                                                <h5 style="color:red;"><b>Chưa thanh toán</b></h5>
+                                                            }
+                                                            else
+                                                            {
+                                                                <h5 style="color:forestgreen"><b>Đã thanh toán</b></h5>
+                                                            }
+                                                        }
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        <h5>Chờ giao</h5>
+                                                    </td>
+                                                    <td>
+                                                        <a href="@Url.Action("DetailOrder","HistoryOrder",new {id = item.OrderDetailID})" class="btn btn-success"><i class="fa fa-edit"></i></a>
+                                                    </td>
+
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+

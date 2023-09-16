@@ -1,0 +1,162 @@
+﻿@model AdminFoodHouse.Models.AccountBuy
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.ThongBao != null)
+{
+    <script>
+        alert("@Html.Raw(@ViewBag.ThongBao)")
+    </script>
+}
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 100%;
+    }
+
+    body {
+        font-size: 100%;
+        font-family: Roboto;
+    }
+
+</style>
+
+
+
+<section class="product">
+    <div class="container">
+        <div class=" bg-white" style="height:360px">
+
+            <ul class="product__list hide-on-mobile" style="background-color:red;color:white">
+
+                <h2 style="text-align:center;margin-right:42% ;font-size:16px">
+
+                    Thay đổi thông tin cá nhân
+                </h2>
+            </ul>
+            @using (Html.BeginForm("Info", "User", new { id = Model.AccountBuyID }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="col-lg-8 col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p style="font-size:16px">Họ và tên<span>*</span></p>
+                                <input style="font-size:16px" type="text" name="name" value="@Model.UserName">
+                                <span>@ViewData["err1"]</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="checkout__input">
+                        <p style="font-size:16px">Địa chỉ<span>*</span></p>
+                        <input style="font-size:16px" type="text" value="@Model.Address" name="address">
+                        <span style="font-size:16px">@ViewData["err2"]</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p style="font-size:16px">Số điện thoại<span>*</span></p>
+                                <input style="font-size:16px" type="text" name="sdt" value="@Model.PhoneNumber">
+                                <span>@ViewData["err3"]</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="margin-bottom:30px">
+                            <div class="checkout__input">
+                                <p style="font-size:16px">Email<span>*</span></p>
+                                <input style="font-size:16px" type="text" name="email" value="@Model.Email">
+                                <span>@ViewData["err4"]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="@Url.Action("resetpass","User")"><input class="btn btn-danger" style="font-size:16px" value="Đổi mật khẩu" /></a>
+                        @ViewBag.ThongBao
+                        <input style="margin-left: 250px; font-size: 16px " type="submit" value="Thay đổi thông tin" class="btn btn-success" />
+                    </div>
+                </div>
+            }
+
+            <aside class="product__aside col-lg-3 col-md-0 col-sm-0" style="margin-bottom:20px">
+                <div class="product__aside-top">
+                    <div class="product__aside-top-item">
+                        <img src="~/Images/shipper.png">
+                        <div class="product__aside-top-item-text">
+                            <p>
+                                Giao hàng nhanh chóng
+                            </p>
+                            <span>
+                                Chỉ trong vòng 2h
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product__aside-top-item">
+                        <img src="~/Images/brand.png">
+                        <div class="product__aside-top-item-text">
+                            <p>
+                                Sản phẩm an toàn
+                            </p>
+                            <span>
+                                Sản phẩm không độc hại
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product__aside-top-item">
+                        <img src="~/Images/less.png">
+                        <div class="product__aside-top-item-text">
+                            <p>
+                                Mua hàng tiết kiệm
+                            </p>
+                            <span>
+                                Rẻ hơn từ 10% đến 30%
+                            </span>
+                        </div>
+                    </div>
+            </aside>
+        </div>
+        </div>
+    </section>
+
+           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <script>
+
+                $(".popup_close").click(function () {
+                    $(".main__modal").hide();
+                });
+            </script>
